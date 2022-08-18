@@ -1,19 +1,19 @@
 {% load static %}
 <header>
 
-<div class="container py-5" style="padding: 0rem!important">
-  <nav class="navbar navbar-dark bg-dark" style="background-color: black !important;">
+<div class="container py-5" style="padding: 0rem!important;">
+  <nav class="navbar navbar-dark bg-dark" style="background-color: white!important;">
 
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="color:black;">Offcanvas dark navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-      <span class="navbar-toggler-icon"></span>
+  <div class="container-fluid" style="background-color: white!important;">
+    <a class="navbar-brand" href="{% url 'posts:index' %}" style="color: grey;">Главная</a>
+    <button class="navbar-toggler" style="color: grey;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"><></span>
     </button>
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
           <a class="nav-link" href="{% url 'posts:index' %}">
-            THE BLOG
+            THE THREADS
           </a>
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -34,7 +34,7 @@
         </li>
           {% if user.username %}
         <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'posts:post_create' %}">Новая запись</a>
+          <a class="nav-link link-light" href="{% url 'posts:post_create' %}">Создать тред</a>
         </li>
         <li class="nav-item">
           <a class="nav-link link-light {% if request.resolver_match.view_name == 'users:password_change_form' %}active{% endif %}" href="{% url 'users:password_change_form' %}">Изменить пароль</a>
