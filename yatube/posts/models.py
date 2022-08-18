@@ -20,9 +20,14 @@ class Group(models.Model):
 
 
 class Post(CreatedModel):
+    title = models.CharField(
+        max_length=300,
+        verbose_name='Заголовок треда',
+        help_text='Будьте конкретны. Представьте, что вы задаёте вопрос другому человеку.'
+    )
     text = models.TextField(
-        verbose_name='напиши что-нибудь классное здесь!',
-        help_text='Введите текст поста'
+        verbose_name='Основная часть',
+        help_text='Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос'
     )
     author = models.ForeignKey(
         User,
@@ -36,11 +41,11 @@ class Post(CreatedModel):
         null=True,
         on_delete=models.SET_NULL,
         related_name='posts',
-        verbose_name='у поста может быть группа, если захочешь...',
-        help_text='Группа, к которой будет относиться пост'
+        verbose_name='Метки',
+        help_text='Добавьте метки, описывающие о чём ваш вопрос'
     )
     image = models.ImageField(
-        'Картинка',
+        'Добавить изображение',
         upload_to='posts/',
         blank=True
     )
