@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Избранные авторы{% endblock %}
+{% block content %}
+{% include 'posts/includes/switcher.html' %}
+<main>
+<div class="container py-5" style="padding-top: 0rem!important;">
+  <h1 style="text-align: center;">Избранные авторы</h1>
+    {% for post in page_obj %}
+      {% include 'includes/card.html' %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+</div>
+</main>
+{% endblock %}

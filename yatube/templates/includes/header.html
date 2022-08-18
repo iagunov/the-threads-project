@@ -1,0 +1,64 @@
+{% load static %}
+<header>
+
+<div class="container py-5" style="padding: 0rem!important">
+  <nav class="navbar navbar-dark bg-dark" style="background-color: black !important;">
+
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color:black;">Offcanvas dark navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+          <a class="nav-link" href="{% url 'posts:index' %}">
+            THE BLOG
+          </a>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <li class="nav-item" style="font-size: 17px;">
+          <a
+                  class="nav-link link-light {% if request.resolver_match.view_name == 'about:author' %}active{% endif %}"
+                  href="{% url 'about:author' %}">Об авторе
+          </a>
+        </li>
+          <li class="nav-item">
+          <a
+                  class="nav-link link-light {% if request.resolver_match.view_name == 'about:tech' %}active{% endif %}"
+                  href="{% url 'about:tech' %}">Технологии
+          </a>
+        </li>
+          {% if user.username %}
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'posts:post_create' %}">Новая запись</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light {% if request.resolver_match.view_name == 'users:password_change_form' %}active{% endif %}" href="{% url 'users:password_change_form' %}">Изменить пароль</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light {% if request.resolver_match.view_name == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        <li>
+          <li class="nav-item">
+        <a class="nav-link link-light" href="#" >Пользователь: {{ user.get_full_name }}</a>
+          </li>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link link-light {% if request.resolver_match.view_name == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light {% if request.resolver_match.view_name == 'users:signup' %}active{% endif %}" href="{% url 'users:signup' %}">Регистрация</a>
+        </li>
+        {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+</div>
+</header>
