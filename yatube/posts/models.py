@@ -76,6 +76,11 @@ class Comment(CreatedModel):
         verbose_name='Твой коммент!',
         help_text='Введите текст комментария'
     )
+    image = models.ImageField(
+        'Добавить изображение',
+        upload_to='posts/',
+        blank=True
+    )
 
     class Meta:
         ordering = ('-created',)

@@ -105,7 +105,10 @@ def post_edit(request, post_id):
 @login_required(login_url='/auth/login/')
 def add_comment(request, post_id):
     post = Post.objects.get(pk=post_id)
-    form = CommentForm(request.POST or None)
+    form = CommentForm(
+        request.POST or None,
+        files=request.FILES or None
+    )
     if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
