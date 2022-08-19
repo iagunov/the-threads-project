@@ -51,6 +51,24 @@
         <!-- Форма добавления комментария -->
         {% load user_filters %}
 
+
+
+        {% for comment in comments %}
+          <div class="media mb-4">
+            <div class="media-body">
+            <h5 class="mt-0">
+            <a href="{% url 'posts:profile' comment.author.username %}">
+            {{ comment.author.username }}
+            </a>
+            </h5>
+               <p>
+                {{ comment.text }}
+               </p>
+             </div>
+           </div>
+        <hr>
+         {% endfor %}
+
         {% if user.is_authenticated %}
         <div class="card my-4">
         <h5 class="card-header">Ваш ответ:</h5>
@@ -66,23 +84,8 @@
         </div>
         {% endif %}
 
-        {% for comment in comments %}
-          <div class="media mb-4">
-            <div class="media-body">
-            <h5 class="mt-0">
-            <a href="{% url 'posts:profile' comment.author.username %}">
-            {{ comment.author.username }}
-            </a>
-            </h5>
-               <p>
-                {{ comment.text }}
-               </p>
-             </div>
-           </div>
-         {% endfor %}
-
-      </div>
-                       </div>
-           </div>
+         </div>
+        </div>
+            </div>
     </main>
 {% endblock %}

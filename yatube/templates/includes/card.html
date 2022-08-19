@@ -4,14 +4,28 @@
     <p>{{ post.title }}</p>
   </a>
 </article>
-<span style="margin-top: 10px;">
-  <a href="{% url 'posts:profile' post.author %}">@{{ post.author }}</a>
-</span>
-<span style="color: grey;">
-  {{ post.created|date:"d E Y" }}
-</span>
+
+<div class="container py-5" style="
+padding: 0rem!important;
+display: flex!important;
+justify-content: space-between;
+">
 
   {% if post.group and not group %}
-    <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+    <a href="{% url 'posts:group_list' post.group.slug %}">
+      <span class="badge rounded-pill bg-dark">{{ post.group.title }}</span>
+    </a>
   {% endif %}
+  <div>
+  <span>
+    <a href="{% url 'posts:profile' post.author %}">@{{ post.author }}</a>
+  </span>
+  <span style="color: grey;">
+    {{ post.created|date:"d E Y" }}
+  </span>
+</div>
+</p>
+
+
+</div>
   {% if not forloop.last %}<hr>{% endif %}
