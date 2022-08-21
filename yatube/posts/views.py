@@ -14,10 +14,12 @@ User = get_user_model()
 
 @cache_page(20, key_prefix='index_page')
 def index(request):
+    group = Group.objects.all()
     post_list = Post.objects.select_related('author', 'group')
     page_obj = paginate_queryset(post_list, request)
     context = {
         'page_obj': page_obj,
+        'group': group,
     }
     return render(request, 'posts/index.html', context)
 
