@@ -2,9 +2,12 @@
 <div class="card" style="border: none;">
   <div class="card-body">
     {% if post.group %}
-      <a href="{% url 'posts:group_list' post.group.slug %}">
+      <a href="{% url 'posts:group_list' post.group.slug %}" style="text-decoration: none;">
         <span class="badge rounded-pill bg-dark" style="margin-bottom: 12px;">{{ post.group.title }}</span>
       </a>
+    {% endif %}
+    {% if post.difficulty %}
+        <span style="margin-bottom: 12px; color: grey;">{{ post.difficulty.title }}</span>
     {% endif %}
     <h5 class="card-title">
       <a href="{% url 'posts:post_detail' post.pk %}" style="text-decoration: none; ">
@@ -13,6 +16,7 @@
     </h5>
     <p class="card-text"><small class="text-muted" style="display: flex!important; justify-content:  space-between;">
       {{ post.created|date:"d E Y" }}
+      <span>Всего ответов: {{ post.id }}</span>
         <span>
           <span style="color: black;">{{ post.author.get_full_name }}</span>
             <a href="{% url 'posts:profile' post.author %}" style="color: grey; text-decoration: none;">

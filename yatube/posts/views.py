@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
 
-from .models import Group, Post, Follow
+from .models import Group, Post, Follow, Comment
 from .my_paginator import paginate_queryset
 from .forms import CommentForm, PostForm
 
@@ -57,11 +57,13 @@ def post_detail(request, post_id):
         author__username=post.author).count
     form = CommentForm()
     comments = post.comments.all()
+    comments_count = comments.count()
     context = {
         'post': post,
         'num_posts': num_posts,
         'form': form,
-        'comments': comments
+        'comments': comments,
+        'comments_count': comments_count
     }
     return render(request, 'posts/post_detail.html', context)
 

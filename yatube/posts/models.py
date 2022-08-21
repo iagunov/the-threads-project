@@ -19,6 +19,18 @@ class Group(models.Model):
         return self.title
 
 
+class Difficulty(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name = 'Сложность'
+        verbose_name_plural = 'Уровень сложности'
+
+    def __str__(self):
+        return self.title
+
+
 class Post(CreatedModel):
     title = models.CharField(
         max_length=300,
@@ -43,6 +55,15 @@ class Post(CreatedModel):
         related_name='posts',
         verbose_name='Метки',
         help_text='Добавьте метки, описывающие о чём ваш вопрос'
+    )
+    difficulty = models.ForeignKey(
+        Difficulty,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        verbose_name='Сложность вопроса',
+        help_text='Укажите уровень сложности'
     )
     image = models.ImageField(
         'Добавить изображение',
