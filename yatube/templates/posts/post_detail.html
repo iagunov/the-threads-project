@@ -48,7 +48,7 @@
               </div>
         <article class="container py-5" style="padding-top: 0rem!important;">
           <p>
-           {{  post.text  }}
+           {{  post.text | safe  }}
           </p>
           {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
             <img class="card-img my-2" src="{{ im.url }}">
@@ -60,13 +60,21 @@
         {% load user_filters %}
 
 
+                {% if comments %}
+                <span>
+                    Решения вопроса: {{ comments_count }}
 
+                </span>
+                <hr>
+                {% endif %}
         {% for comment in comments %}
           <div class="media mb-4">
             <div class="media-body">
             <h5 class="mt-0">
+                <span style="color: black;">{{ comment.author.get_full_name }}</span>
             <a href="{% url 'posts:profile' comment.author.username %}">
-            {{ comment.author.username }}
+
+            @{{ comment.author.username }}
             </a>
             </h5>
 <!--                {% thumbnail post.image "960x339" crop="center" upscale=True as im %}-->
@@ -75,6 +83,7 @@
                <p>
                 {{ comment.text }}
                </p>
+                <span style="color: #B2BAC2;">Ответ написан: {{ comment.created|date:"d E Y" }}</span>
              </div>
            </div>
         <hr>
@@ -89,12 +98,13 @@
               <div class="form-group mb-2">
                 {{ form.text|addclass:"form-control" }}
               </div>
-            <button type="submit" class="btn btn-success">Отправить</button>
+            <button type="submit" class="btn btn-dark">Отправить</button>
             </form>
           </div>
         </div>
         {% endif %}
                 <h5 style="margin: 12px 0 12px 0;">Похожие вопросы</h5>
+                <hr>
                 {% for post in interesting_posts %}
                    {% include 'includes/card.html' %}
                 {% endfor %}

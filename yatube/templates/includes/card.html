@@ -19,7 +19,7 @@
       </span>
     </h5>
     <p class="card-text"><small class="text-muted" style="color: #B2BAC2;">
-      {{ post.created|date:"d E Y" }}
+      <span>Вопрос задан: {{ post.created|date:"d E Y" }}</span>
           <span style="color: black;">{{ post.author.get_full_name }}</span>
             <a href="{% url 'posts:profile' post.author %}" style="color: #B2BAC2; text-decoration: none;">
               @{{ post.author }}
