@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
-from django.db.models import Count
 
 from .models import Group, Post, Follow, Comment
 from .my_paginator import paginate_queryset
@@ -59,12 +58,14 @@ def post_detail(request, post_id):
     form = CommentForm()
     comments = post.comments.all()
     comments_count = comments.count()
+    interesting_posts = Post.objects.filter(group=post.group)
     context = {
         'post': post,
         'num_posts': num_posts,
         'form': form,
         'comments': comments,
-        'comments_count': comments_count
+        'comments_count': comments_count,
+        'interesting_posts': interesting_posts,
     }
     return render(request, 'posts/post_detail.html', context)
 

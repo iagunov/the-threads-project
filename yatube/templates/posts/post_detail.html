@@ -94,6 +94,10 @@
           </div>
         </div>
         {% endif %}
+                <h5 style="margin: 12px 0 12px 0;">Похожие вопросы</h5>
+                {% for post in interesting_posts %}
+                   {% include 'includes/card.html' %}
+                {% endfor %}
 
          </div>
         </div>
