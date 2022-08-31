@@ -90,9 +90,10 @@ def post_edit(request, post_id):
         return HttpResponseRedirect(reverse(
             'posts:post_detail', args=[post_id]))
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, files=request.FILES or None, instance=post)
         if form.is_valid():
-            form.save(commit=False)
+            f = form.save(commit=False)
+            f.author_id = request.user.id
             form.save()
             return redirect(f'/posts/{post.id}/', {'form': form})
 

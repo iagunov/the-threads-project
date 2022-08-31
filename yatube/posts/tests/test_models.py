@@ -34,10 +34,10 @@ class PostModelTest(TestCase):
         """Проверяем, что verbose_name в полях совпадает с ожидаемым."""
         task_post = PostModelTest.post
         field_verboses = {
-            'text': 'напиши что-нибудь классное здесь!',
+            'text': 'Основная часть',
             'created': 'Дата создания',
             'author': 'Автор',
-            'group': 'у поста может быть группа, если захочешь...'
+            'group': 'Метки'
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -49,8 +49,8 @@ class PostModelTest(TestCase):
         """Проверяем, что help_text в полях совпадает с ожидаемым."""
         task_post = PostModelTest.post
         field_help_texts = {
-            'text': 'Введите текст поста',
-            'group': 'Группа, к которой будет относиться пост'
+            'text': 'Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос',
+            'group': 'Добавьте метки, описывающие о чём ваш вопрос'
         }
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):
