@@ -9,7 +9,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from ..forms import CommentForm, PostForm
-from ..models import Comment, Group, Post, User
+from ..models import Comment, Group, Post, User, Difficulty
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
@@ -43,12 +43,15 @@ class TaskURLTests(TestCase):
             content=small_gif,
             content_type='image/gif'
         )
+        Difficulty.objects.create(title='Простой', slug='new_fig_sluggy')
+        cls.difficulty = Difficulty.objects.get(title='Простой')
         cls.post = Post.objects.create(
+            title='shit',
             author=cls.author,
             group=cls.group_1,
             text='Тестовый текст',
-            created='14.07.2022',
             image=uploaded,
+            difficulty=cls.difficulty
         )
 
         cls.authorized_client = Client()
@@ -65,7 +68,7 @@ class TaskURLTests(TestCase):
 
     def test_edit_post(self):
         """Измененный Post записывается в базу."""
-        update_url = reverse('posts:post_edit', args=('1',))
+        update_url = reverse('posts:post_edit', kwargs={'post_id': self.post.pk,})
 
         response_guest = self.guest.get(update_url)
         self.assertEqual(response_guest.status_code, HTTPStatus.FOUND)
@@ -74,8 +77,7 @@ class TaskURLTests(TestCase):
         form = response_auth.context['form']
         data = form.initial
         data['text'] = 'Новый тестовый текст'
-
-        self.authorized_client.post(update_url, data)
+        self.authorized_client.post(update_url, data=data)
         self.authorized_client.get(update_url)
 
         self.assertTrue(
@@ -215,6 +217,7 @@ class TaskURLTests(TestCase):
         )
 
         form_data = {
+            'title': 'title',
             'text': 'Тестовый текст',
             'image': uploaded,
         }
