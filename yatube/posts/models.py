@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 
-from core.models import CreatedModel
+from core.models import Publication, User
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class Group(models.Model):
@@ -31,28 +31,12 @@ class Difficulty(models.Model):
         return self.title
 
 
-class Post(CreatedModel):
-    title = models.CharField(
-        max_length=300,
-        verbose_name='Заголовок треда',
-        help_text='Будьте конкретны. Представьте, что вы задаёте вопрос другому человеку.'
-    )
-    text = models.TextField(
-        verbose_name='Основная часть',
-        help_text='Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос'
-    )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name='Автор'
-    )
+class Post(Publication):
     group = models.ForeignKey(
         Group,
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='posts',
         verbose_name='Метки',
         help_text='Добавьте метки, описывающие о чём ваш вопрос'
     )
@@ -61,7 +45,6 @@ class Post(CreatedModel):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='posts',
         verbose_name='Сложность вопроса',
         help_text='Укажите уровень сложности'
     )
@@ -80,22 +63,12 @@ class Post(CreatedModel):
         return self.text[:15]
 
 
-class Comment(CreatedModel):
+class Comment(Publication):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Комментарий к этому посту'
-    )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Автор комментария'
-    )
-    text = models.TextField(
-        verbose_name='Твой коммент!',
-        help_text='Введите текст комментария'
     )
     image = models.ImageField(
         'Добавить изображение',
@@ -136,5 +109,3 @@ class Follow(models.Model):
                 name='do not self-follow'),
         ]
 
-    def __str__(self):
-        return self.text[:15]
