@@ -138,3 +138,11 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# добавление florida
+/images
+doc/**/*.txt
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sw*
