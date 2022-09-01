@@ -26,7 +26,8 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    post_list = group.posts.select_related('author')
+    # post_list = group.posts.select_related('author')
+    post_list = Post.objects.filter(group=group)
     page_obj = paginate_queryset(post_list, request)
     context = {
         'group': group,
@@ -37,7 +38,8 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = User.objects.get(username=username)
-    post_list = author.posts.all()
+    # post_list = author.posts.all()
+    post_list = Post.objects.filter(author=author)
     page_obj = paginate_queryset(post_list, request)
     following = (
         request.user.is_authenticated and Follow.objects.filter(
@@ -56,7 +58,8 @@ def post_detail(request, post_id):
     num_posts = Post.objects.filter(
         author__username=post.author).count
     form = CommentForm()
-    comments = post.comments.all()
+    # comments = post.comments.all()
+    comments = Comment.objects.filter(post=post)
     comments_count = comments.count()
     interesting_posts = Post.objects.filter(group=post.group)
     context = {
