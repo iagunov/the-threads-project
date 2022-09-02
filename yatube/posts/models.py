@@ -1,9 +1,6 @@
 from django.db import models
-# from django.contrib.auth import get_user_model
 
 from core.models import Publication, User
-
-# User = get_user_model()
 
 
 class Group(models.Model):
@@ -108,4 +105,3 @@ class Follow(models.Model):
                 check=~models.Q(user=models.F('author')),
                 name='do not self-follow'),
         ]
-
