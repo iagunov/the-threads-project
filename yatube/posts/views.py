@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
+import markdown
 
 from .models import Group, Post, Follow, Comment
 from .my_paginator import paginate_queryset
@@ -82,6 +83,12 @@ def post_create(request):
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
+        post.text = markdown.markdown(post.text,
+                                      extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc',
+                                      ])
         form.save()
         return HttpResponseRedirect(f'/profile/{request.user.username}/')
     return render(request, 'posts/create_post.html', {'form': form})
@@ -89,6 +96,12 @@ def post_create(request):
 
 def post_edit(request, post_id):
     post = Post.objects.get(pk=post_id)
+    post.text = markdown.markdown(post.text,
+                                  extensions=[
+                                     'markdown.extensions.extra',
+                                     'markdown.extensions.codehilite',
+                                     'markdown.extensions.toc',
+                                  ])
     if post.author.id != request.user.id:
         return HttpResponseRedirect(reverse(
             'posts:post_detail', args=[post_id]))
@@ -122,6 +135,12 @@ def add_comment(request, post_id):
     if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
+        comment.text = markdown.markdown(comment.text,
+                                      extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc',
+                                      ])
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)

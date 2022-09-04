@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from mdeditor.fields import MDTextField
 
 User = get_user_model()
 
@@ -20,16 +21,12 @@ class CreatedModel(models.Model):
 class Publication(CreatedModel):
     title = models.CharField(
         max_length=300,
-        verbose_name='Заголовок треда',
-        help_text=('Будьте конкретны. Представьте, '
-                   'что вы задаёте вопрос другому человеку.'),
-        default='Заголовок по умолчанию'
+        verbose_name='',
+        default='Заголовок треда',
     )
-    text = models.TextField(
-        verbose_name='Основная часть',
-        help_text=('Добавьте всю информацию, '
-                   'которая может понадобиться '
-                   'для ответа на ваш вопрос')
+    text = MDTextField(
+        verbose_name=('Будьте конкретны. Представьте, '
+                      'что вы задаёте вопрос другому человеку.')
     )
     author = models.ForeignKey(
         User,
