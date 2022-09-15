@@ -10,7 +10,7 @@ class CreatedModel(models.Model):
     created = models.DateTimeField(
         'Дата создания',
         auto_now_add=True,
-        db_index=True
+        db_index=True,
     )
 
     class Meta:
@@ -20,13 +20,13 @@ class CreatedModel(models.Model):
 
 class Publication(CreatedModel):
     title = models.CharField(
-        max_length=300,
-        verbose_name='',
-        default='Заголовок треда',
+        max_length=1000,
+        verbose_name='Название',
+        default='Заголовок',
     )
     text = MDTextField(
         verbose_name=('Будьте конкретны. Представьте, '
-                      'что вы задаёте вопрос другому человеку.')
+                      'что вы задаёте вопрос или пытаетесь продать что-то другому человеку.')
     )
     author = models.ForeignKey(
         User,

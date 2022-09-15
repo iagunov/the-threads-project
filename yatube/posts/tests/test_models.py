@@ -34,7 +34,7 @@ class PostModelTest(TestCase):
         """Проверяем, что verbose_name в полях совпадает с ожидаемым."""
         task_post = PostModelTest.post
         field_verboses = {
-            'text': 'Основная часть',
+            'text': 'Будьте конкретны. Представьте, что вы задаёте вопрос другому человеку.',
             'created': 'Дата создания',
             'author': 'Автор',
             'group': 'Метки'
