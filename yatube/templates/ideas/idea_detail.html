@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+    <main>
+      <div class="container py-5" style="padding-top: 0rem!important;">
+        <div class="container">
+          <h1>{{ idea.title }}</h1>
+          <p>
+            {% if tags %}
+              {% for tag in tags %}
+              <a href="#" style="text-decoration: none; font-size: 12px; margin-right: 5px;">
+                <span class="badge rounded-pill bg-secondary" style="margin-bottom: 12px;">{{ tag.name }}</span>
+              </a>
+              {% endfor %}
+            {% endif%}
+          </p>
+          {% if is_editable %}
+            <a href="{% url 'ideas:idea_edit' idea.pk %}" style="text-decoration: none;">
+              <span class="badge rounded-pill bg-dark">Редактировать</span>
+            </a>
+            <a href="#">
+              <span class="badge rounded-pill bg-danger" style="text-decoration: none;">Удалить</span>
+            </a>
+          {% endif %}
+            <!-- <hr> -->
+            </div>
+          <article class="container py-5" style="padding-top: 0rem!important;">
+            <p>
+             Автор: <a href="{% url 'posts:profile' idea.author.username %}" class="link-success">@{{ idea.author.username }}</a>
+            </p>
+            <hr>
+            <p class="font-weight-light">
+             {{  idea.text|safe  }}
+            </p>
+            <hr>
+            <p class="font-weight-light">
+             <span class="badge rounded-pill bg-dark">Проекту нужны:</span> {{  idea.who_needed|safe  }}
+            </p>
+            <hr>
+            <p>
+              Ссылка на гит:
+              {% if idea.github_link %}
+                <a href="{{ idea.github_link }}"><span class="badge rounded-pill bg-success">{{ idea.github_link }}</span></a>
+              {% else %}
+                <span class="badge rounded-pill bg-danger">Не указана</span>
+              {% endif %}
+            </p>
+            {% thumbnail idea.image "960x339" crop="center" upscale=True as im %}
+              <img class="card-img my-2" src="{{ im.url }}">
+            {% endthumbnail %}
+            <hr>
+            <p>
+              <a href="{% url 'ideas:team_profile' idea.pk %}" style="color: #B2BAC2; text-decoration: none;">
+                <span class="badge rounded-pill bg-success">Команда:</span>
+              </a>
+            </p>
+            {% if team_members %}
+              {% for member in team_members %}
+                <p><a href="{% url 'posts:profile' member.username %}" class="link-dark">@{{ member.username }}</a></p>
+
+              {% endfor %}
+            {% else %}
+              <span class="badge rounded-pill bg-danger">Не набрана</span>
+            {% endif %}
+          <!-- </article> -->
+          <hr>
+        <!-- Форма добавления комментария -->
+          {% load user_filters %}
+          {% if opinions %}
+            <!-- <span> -->
+              <h3>Комментарии:</h3>
+            <!-- </span> -->
+            <!-- <hr> -->
+          {% endif %}
+          {% for opinion in opinions %}
+            <div class="media mb-4">
+              <div class="media-body">
+                <!-- <h5 class="mt-0"> -->
+                  <!-- <span style="color: black;">{{ opinion.author.get_full_name }}</span> -->
+                  <a href="{% url 'posts:profile' opinion.author.username %}" class="link-dark">
+                    @{{ opinion.author.username }}
+                  </a>
+                <!-- </h5> -->
+<!--                {% thumbnail post.image "960x339" crop="center" upscale=True as im %}-->
+<!--                   <img class="card-img my-2" src="{{ im.url }}">-->
+<!--                {% endthumbnail %}-->
+                <p class="font-weight-lighter">
+                  {{ opinion.text|safe }}
+                </p>
+                <span style="color: #B2BAC2;">Ответ написан: {{ opinion.created|date:"d E Y" }}</span>
+              </div>
+            </div>
+            <hr>
+          {% endfor %}
+          {% if user.is_authenticated %}
+            <div class="card my-4">
+              <h5 class="card-header">Что думаете:</h5>
+              <div class="card-body">
+                <form method="post" action="{% url 'ideas:add_opinion' idea.id %}">
+                  {% csrf_token %}
+                  <div class="form-group mb-2">
+                   {{ form.media }}
+                   {{ form.as_p }}
+                  </div>
+                  <button type="submit" class="btn btn-dark">Отправить</button>
+                </form>
+              </div>
+            </div>
+            {% endif %}
+            </article>
+          </div>
+
+        </main>
+{% endblock %}

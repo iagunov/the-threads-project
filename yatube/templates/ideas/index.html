@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Последние обновления на сайте{% endblock %}
+{% block content %}
+
+<main>
+<div class="container py-5" style="padding-top: 0rem!important">
+  {% include 'ideas/includes/switcher.html' %}
+  <hr style="color: white;">
+    {% for idea in page_obj %}
+      {% include 'ideas/includes/card.html' %}
+    {% endfor %}
+    {% include 'ideas/includes/paginator.html' %}
+</div>
+</main>
+{% endblock %}

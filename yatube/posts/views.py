@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_page
 import markdown
 
 from .models import Group, Post, Follow, Comment
-from .my_paginator import paginate_queryset
+from core.views import paginate_queryset
 from .forms import CommentForm, PostForm
 
 User = get_user_model()

@@ -236,7 +236,7 @@ class TaskURLTests(TestCase):
         self.assertEqual(Post.objects.count(), 1)
         # картинка из формы создалась и существует
         self.assertTrue(
-            Post.objects.filter(
+            Post.objects.get(
                 text=form_data['text'],
                 image='posts/new_small.gif',
             ).exists()

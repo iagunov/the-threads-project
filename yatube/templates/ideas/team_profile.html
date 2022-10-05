@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main>
+      <div class="container py-5">
+        <div class="mb-5">
+          <h3>
+            Команда проекта "{{  idea.title  }}"<br>
+            <small class="text-muted">Тимлид: {{ idea.team.owner.username }}</small>
+          </h3>
+          {% if request.user.username %}
+            <p>
+              {% if not in_team %}
+                {% if not is_candidate %}
+                  <a href="{% url 'ideas:participate' idea.pk %}" style="text-decoration: none;">
+                    <span class="badge rounded-pill bg-dark">Подать заявку</span>
+                  </a>
+                {% else %}
+                  Ваша заявка на рассмотрении у тимлида!
+                {% endif %}
+              {% else %}
+                {% if not is_editable %}
+                  <a href="{% url 'ideas:leave' idea.pk %}">
+                    <span class="badge rounded-pill bg-dark" style="text-decoration: none;">Покинуть</span>
+                  </a>
+                {% endif %}
+              {% endif %}
+            </p>
+          {% endif %}
+        </div>
+      <div class="row">
+        <div class="col-md-3 p-5">
+          <div class="card" style="width: 18rem;">
+            <!-- <div class="card-body"> -->
+              <h5 class="card-header">Участники: </h5>
+            <!-- </div> -->
+            {% if team_members %}
+              <ul class="list-group list-group-flush">
+                {% for team_member in team_members %}
+                  <li class="list-group-item">{{ team_member.username }}
+                  {% if is_editable %}
+                    {% if team_member.pk != user.pk %}
+                      <a href="{% url 'ideas:delete' idea.pk team_member.pk idea.team.pk %}" style="text-decoration: none;">
+                        <span class="badge rounded-pill bg-danger">Выгнать</span>
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+        {% if is_editable %}
+         {% if team_candidates %}
+          <div class="col-md-9 p-5">
+            <div class="card" style="width: 24rem;">
+              <h5 class="card-header">Кандидаты: </h5>
+               <ul class="list-group list-group-flush">
+                {% for team_candidate in team_candidates %}
+                 <li class="list-group-item">
+                  {{ team_candidate.username }}
+                   <a href="{% url 'ideas:accept' idea.pk team_candidate.pk idea.team.pk %}" style="text-decoration: none;">
+                    <span class="badge rounded-pill bg-success">Принять в команду</span>
+                   </a>
+                   <a href="{% url 'ideas:decline' idea.pk team_candidate.pk idea.team.pk %}">
+                    <span class="badge rounded-pill bg-danger" style="text-decoration: none;">Отказать</span>
+                   </a>
+                </li>
+               {% endfor %}
+              </ul>
+             {% endif %}
+            {% endif %}
+          </div>
+         </div>
+        </div>
+       </div>
+      </main>
+{% endblock %}
+
+
+
+        <!-- <hr>
+        {% if request.user.username %}
+        <p>
+          {% if not in_team %}
+            {% if not is_candidate %}
+              <a href="{% url 'ideas:participate' idea.pk %}" style="text-decoration: none;">
+                <span class="badge rounded-pill bg-dark">Подать заявку</span>
+              </a>
+            {% else %}
+              Ваша заявка на рассмотрении у тимлида!
+            {% endif %}
+          {% else %}
+            {% if not is_editable %}
+              <a href="{% url 'ideas:leave' idea.pk %}">
+                <span class="badge rounded-pill bg-dark" style="text-decoration: none;">Покинуть</span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </p>
+        {% endif %} -->
